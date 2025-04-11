@@ -28,15 +28,21 @@ def load_location_notes(tsv_filepath):
 
 def extract_journal_dates(journal_text):
     """
-    Extracts all dates in MM/DD/YYYY format from the journal text.
+    Extracts all valid dates in MM/DD/YYYY format from the journal text.
+
+    Only includes dates where:
+    - MM is 01–12
+    - DD is 01–31
+    - YYYY is any 4-digit year
 
     Args:
         journal_text (str): The full text content of the journal.
 
     Returns:
-        list[str]: A list of date strings found in the text.
+        list[str]: A list of valid date strings found in the text.
     """
-    return re.findall(r'\b\d{2}/\d{2}/\d{4}\b', journal_text)
+    pattern = r'\b(0[1-9]|1[0-2])/(0[1-9]|[12][0-9]|3[01])/\d{4}\b'
+    return re.findall(pattern, journal_text)
 
 def extract_secret_codes(journal_text):
     """
